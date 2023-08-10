@@ -1,36 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const dogImagesContainer = document.querySelector(".dog-images");
-  const generateImagesBtn = document.getElementById("generateImagesBtn");
+  const foxImagesContainer = document.querySelector(".fox-images");
+  const generateFoxBtn = document.getElementById("generateFoxBtn");
 
-  async function fetchDogImages() {
-    const apiUrl = "https://dog.ceo/api/breeds/image/random/2";
+  const foxApiUrl = "https://randomfox.ca/floof/";
+
+  async function fetchFoxImage() {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(foxApiUrl);
       const data = await response.json();
-      return data.message;
+      return data.image;
     } catch (error) {
-      console.error("Error fetching data:", error);
-      return [];
+      console.error("Error fetching fox image:", error);
+      return "";
     }
   }
 
-  async function displayDogImages() {
-    const dogImages = await fetchDogImages();
-    if (dogImages.length !== 2) {
-      console.error("Received an unexpected number of dog images.");
+  async function displayFoxImage() {
+    const foxImage = await fetchFoxImage();
+
+    if (!foxImage) {
+      console.error("Received an unexpected fox image data.");
       return;
     }
 
-    const dogImageElements = document.querySelectorAll(".dog-image");
-    dogImageElements.forEach((imageElement, index) => {
-      imageElement.src = dogImages[index];
-    });
+    const foxImageElement = document.querySelector(".fox-image");
+    foxImageElement.src = foxImage;
+    foxImageElement.style.transform = "scale(1)";
+    foxImageElement.style.opacity = 1;
   }
 
-  generateImagesBtn.addEventListener("click", () => {
-    displayDogImages();
+  generateFoxBtn.addEventListener("click", () => {
+    displayFoxImage();
   });
 
   // Initial display
-  displayDogImages();
+  displayFoxImage();
 });
